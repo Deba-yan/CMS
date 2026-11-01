@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Receipt{% endblock %}{% block body %}
+<div class="card receipt"><h1>Payment receipt</h1><p class="sub">#{{ '%04d'|format(p.id) }} · {{ p.created_at }}</p>
+<table><tr><td>Name</td><td>{{ p.uname }}</td></tr><tr><td>Conference</td><td>{{ p.conf }}</td></tr>
+<tr><td>Card</td><td>•••• {{ p.card_last4 }}</td></tr><tr><td>Amount</td><td><b>₹{{ '%.0f'|format(p.amount) }}</b></td></tr>
+<tr><td>Status</td><td><span class="tag {{ p.status }}">{{ p.status }}</span></td></tr></table>
+<a class="btn" href="javascript:window.print()">Print</a> <a class="btn ghost" href="{{ url_for('my_registrations') }}">Back</a></div>{% endblock %}

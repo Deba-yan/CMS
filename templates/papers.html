@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Papers{% endblock %}{% block body %}
+<h1>{{ 'All papers' if user.role=='admin' else 'My papers' }}</h1><p class="sub">Submission status and review progress.</p>
+<div class="card">{% if rows %}<table><tr><th>ID</th><th>Title</th><th>Conference</th>{% if user.role=='admin' %}<th>Author</th>{% endif %}<th>Reviews</th><th>Status</th><th></th></tr>
+{% for p in rows %}<tr><td>P{{ '%03d'|format(p.id) }}</td><td>{{ p.title }}</td><td>{{ p.conf }}</td>{% if user.role=='admin' %}<td>{{ p.author_name }}</td>{% endif %}
+<td>{{ p.nrev }}{% if p.avg %} (avg {{ p.avg }}){% endif %}</td><td><span class="tag {{ p.status.split()[0] }}">{{ p.status }}</span></td>
+<td>{% if user.role=='admin' %}<a class="btn sm" href="{{ url_for('paper_admin', pid=p.id) }}">Manage</a>{% else %}<a class="btn sm ghost" href="{{ url_for('download', fn=p.filename) }}">File</a>{% endif %}</td></tr>{% endfor %}</table>
+{% else %}<div class="empty">No papers yet.{% if user.role=='author' %} <a href="{{ url_for('submit') }}">Submit your first paper</a>.{% endif %}</div>{% endif %}</div>{% endblock %}

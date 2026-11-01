@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}CMS{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+/* keeps the footer at the very bottom of the page */
+body{min-height:100vh;display:flex;flex-direction:column}
+main{flex:1 0 auto;width:100%}
+.site-footer{flex-shrink:0;background:#fff;border-top:1px solid #e5e7eb;color:#6b7280;font-size:13px;text-align:center;padding:16px;margin-top:30px}
+.site-footer a{color:#4f46e5;font-weight:600;text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+@media print{.site-footer{display:none}}
+</style></head><body>
+<nav><span class="logo">🎓 Conference Management System</span>
+{% if user %}
+<a href="{{ url_for('dashboard') }}">Dashboard</a>
+<a href="{{ url_for('conferences') }}">Conferences</a>
+{% if user.role=='author' %}<a href="{{ url_for('submit') }}">Submit Paper</a><a href="{{ url_for('papers') }}">My Papers</a>{% endif %}
+{% if user.role=='admin' %}<a href="{{ url_for('papers') }}">Papers</a>{% endif %}
+{% if user.role=='reviewer' %}<a href="{{ url_for('reviews') }}">My Reviews</a>{% endif %}
+{% if user.role!='admin' %}<a href="{{ url_for('my_registrations') }}">Registrations</a>{% endif %}
+<a href="{{ url_for('schedule') }}">Schedule</a>
+{% if user.role=='admin' %}<a href="{{ url_for('reports') }}">Reports</a>{% endif %}
+<span class="sp"></span>
+<a href="{{ url_for('notifications') }}">🔔{% if unread %}<span class="badge">{{ unread }}</span>{% endif %}</a>
+<a href="{{ url_for('logout') }}">Logout ({{ user.name.split()[0] }})</a>
+{% endif %}</nav>
+<main>{% with m = get_flashed_messages(with_categories=true) %}{% for c,t in m %}<div class="flash {{ c }}">{{ t }}</div>{% endfor %}{% endwith %}
+{% block body %}{% endblock %}</main>
+<footer class="site-footer">&copy; 2026 Debayan Kundu &nbsp;|&nbsp; <a href="https://github.com/Deba-yan" target="_blank" rel="noopener">Deba-yan</a></footer>
+</body></html>

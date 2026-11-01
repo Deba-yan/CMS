@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Reports{% endblock %}{% block body %}
+<h1>Reports</h1><p class="sub">Generate a report for any date range.</p>
+<div class="card"><form method="post"><div class="row"><div><label>Report type</label><select name="type">{% for k,v in types.items() %}<option value="{{ k }}">{{ v[0] }}</option>{% endfor %}</select></div><div></div></div>
+<div class="row"><div><label>From (optional)</label><input type="date" name="start"></div><div><label>To (optional)</label><input type="date" name="end"></div></div><button>Generate</button></form></div>
+{% if data %}<div class="card"><h2>{{ data.title }} <span class="muted" style="font-size:13px">({{ data.rows|length }} rows)</span></h2>
+<table><tr>{% for c in data.cols %}<th>{{ c.replace('_',' ') }}</th>{% endfor %}</tr>{% for r in data.rows %}<tr>{% for c in data.cols %}<td>{{ r[c] }}</td>{% endfor %}</tr>{% endfor %}</table>
+<a class="btn ghost" href="javascript:window.print()">Print</a></div>{% endif %}{% endblock %}

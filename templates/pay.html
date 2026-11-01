@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Payment{% endblock %}{% block body %}
+<div class="auth card"><h1>Pay registration fee</h1><p class="sub">{{ r.conf }} — <b>₹{{ '%.0f'|format(r.fee) }}</b></p>
+<form method="post"><label>Card number</label><input name="card" placeholder="4242 4242 4242 4242" required>
+<div class="row"><div><label>Expiry (MM/YY)</label><input name="expiry" placeholder="08/28" required></div><div><label>CVV</label><input name="cvv" placeholder="123" maxlength="3" required></div></div>
+<button style="width:100%">Pay ₹{{ '%.0f'|format(r.fee) }}</button></form>
+<div class="note">Demo only — no real payment. Any 16-digit card works; one ending in <code>0000</code> simulates a failed payment.</div></div>{% endblock %}

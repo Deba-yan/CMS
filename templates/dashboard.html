@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block body %}
+<h1>Hello, {{ user.name }}</h1><p class="sub">Signed in as <b>{{ user.role }}</b>.</p>
+<div class="grid">{% for k,v in stats.items() %}<div class="stat"><b>{{ v }}</b><span>{{ k }}</span></div>{% endfor %}</div>
+<div class="card"><h2>Quick actions</h2>
+{% if user.role=='admin' %}<a class="btn" href="{{ url_for('conferences') }}">Create conference</a>
+<a class="btn ghost" href="{{ url_for('papers') }}">Assign reviewers / decide</a>
+<a class="btn ghost" href="{{ url_for('schedule') }}">Manage schedule</a>
+<a class="btn ghost" href="{{ url_for('reports') }}">Reports</a>
+{% elif user.role=='author' %}<a class="btn" href="{{ url_for('submit') }}">Submit a paper</a>
+<a class="btn ghost" href="{{ url_for('papers') }}">Track my papers</a>
+{% elif user.role=='reviewer' %}<a class="btn" href="{{ url_for('reviews') }}">Open my review queue</a>
+{% else %}<a class="btn" href="{{ url_for('conferences') }}">Browse &amp; register</a>
+<a class="btn ghost" href="{{ url_for('my_registrations') }}">My registrations</a>{% endif %}
+<a class="btn ghost" href="{{ url_for('schedule') }}">View schedule</a></div>{% endblock %}

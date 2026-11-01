@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}My Reviews{% endblock %}{% block body %}
+<h1>My review queue</h1><p class="sub">Papers assigned to you.</p>
+<div class="card">{% if rows %}<table><tr><th>ID</th><th>Title</th><th>Conference</th><th>My score</th><th></th></tr>
+{% for p in rows %}<tr><td>P{{ '%03d'|format(p.id) }}</td><td>{{ p.title }}</td><td>{{ p.conf }}</td><td>{{ p.score ~ '/10' if p.score else 'Not reviewed' }}</td>
+<td><a class="btn sm" href="{{ url_for('review', pid=p.id) }}">{{ 'Edit' if p.score else 'Review' }}</a></td></tr>{% endfor %}</table>
+{% else %}<div class="empty">Nothing assigned yet.</div>{% endif %}</div>{% endblock %}

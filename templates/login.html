@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Login{% endblock %}{% block body %}
+<div class="auth card">
+    <h1>Log in</h1>
+    <p class="sub">Access your conference dashboard.</p>
+    <form method="post"><label>Email</label><input name="email" type="email" required>
+        <label>Password</label><input name="password" type="password" required>
+        <button style="width:100%">Log in</button>
+    </form>
+    <p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+    <div class="note"><b>Demo accounts</b> (password <code>demo123</code>)<br>
+        admin@demo.com · author@demo.com<br>reviewer@demo.com · participant@demo.com</div>
+</div>{% endblock %}

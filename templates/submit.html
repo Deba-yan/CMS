@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Submit Paper{% endblock %}{% block body %}
+<h1>Submit a paper</h1><p class="sub">PDF, DOC or DOCX, up to 10 MB.</p>
+<div class="card"><form method="post" enctype="multipart/form-data">
+<label>Conference</label><select name="conference_id" required>{% for c in confs %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select>
+<label>Paper title</label><input name="title" required>
+<label>Abstract</label><textarea name="abstract" required></textarea>
+<label>Authors (comma separated)</label><input name="authors" value="{{ user.name }}" required>
+<label>Paper file</label><input type="file" name="file" accept=".pdf,.doc,.docx" required>
+<button>Submit paper</button></form></div>{% endblock %}

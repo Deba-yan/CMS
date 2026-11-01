@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}Schedule{% endblock %}{% block body %}
+<h1>Conference schedule</h1><p class="sub">Sessions by conference.</p>
+{% if user.role=='admin' %}<div class="card"><h2>{{ 'Edit session' if edit else 'Add a session' }}</h2><form method="post">
+{% if edit %}<input type="hidden" name="sid" value="{{ edit.id }}">{% endif %}
+<div class="row"><div><label>Conference</label><select name="conference_id">{% for c in confs %}<option value="{{ c.id }}" {{ 'selected' if edit and edit.conference_id==c.id }}>{{ c.name }}</option>{% endfor %}</select></div>
+<div><label>Session name</label><input name="name" value="{{ edit.name if edit }}" required></div></div>
+<div class="row"><div><label>Speaker</label><input name="speaker" value="{{ edit.speaker if edit }}" required></div><div><label>Venue / room</label><input name="venue" value="{{ edit.venue if edit }}" required></div></div>
+<div class="row"><div><label>Date</label><input type="date" name="date" value="{{ edit.date if edit }}" required></div>
+<div class="row"><div><label>Start</label><input type="time" name="start_time" value="{{ edit.start_time if edit }}" required></div><div><label>End</label><input type="time" name="end_time" value="{{ edit.end_time if edit }}" required></div></div></div>
+<button>{{ 'Save changes' if edit else 'Add session' }}</button> {% if edit %}<a href="{{ url_for('schedule') }}">cancel</a>{% endif %}</form></div>{% endif %}
+<div class="card">{% if rows %}<table><tr><th>Conference</th><th>Session</th><th>Speaker</th><th>When</th><th>Venue</th>{% if user.role=='admin' %}<th></th>{% endif %}</tr>
+{% for s in rows %}<tr><td>{{ s.conf }}</td><td>{{ s.name }}</td><td>{{ s.speaker }}</td><td>{{ s.date }}<br><span class="muted">{{ s.start_time }}–{{ s.end_time }}</span></td><td>{{ s.venue }}</td>
+{% if user.role=='admin' %}<td><a class="btn sm ghost" href="{{ url_for('schedule', edit=s.id) }}">Edit</a>
+<form class="inline" method="post"><input type="hidden" name="sid" value="{{ s.id }}"><input type="hidden" name="delete" value="1"><button class="btn sm danger" onclick="return confirm('Delete session?')">Del</button></form></td>{% endif %}</tr>{% endfor %}</table>
+{% else %}<div class="empty">No sessions scheduled yet.</div>{% endif %}</div>{% endblock %}

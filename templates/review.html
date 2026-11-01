@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Review{% endblock %}{% block body %}
+<h1>Review P{{ '%03d'|format(p.id) }}</h1><p class="sub">{{ p.title }}</p>
+<div class="card"><h2>Abstract</h2><p>{{ p.abstract }}</p><a class="btn sm ghost" href="{{ url_for('download', fn=p.filename) }}">Download paper</a></div>
+<div class="card"><form method="post"><label>Score (1–10)</label><input name="score" type="number" min="1" max="10" value="{{ ex.score if ex }}" required style="max-width:120px">
+<label>Comments</label><textarea name="comments" required>{{ ex.comments if ex }}</textarea><button>Submit review</button></form></div>{% endblock %}

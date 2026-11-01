@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Notifications{% endblock %}{% block body %}
+<h1>Notifications</h1><p class="sub">Updates about your papers, payments and the schedule.</p>
+{% if user.role=='admin' %}<div class="card"><h2>Send a notification</h2><form method="post"><div class="row">
+<div><label>To</label><select name="user_id"><option value="all">Everyone</option>{% for u in users %}<option value="{{ u.id }}">{{ u.name }} ({{ u.role }})</option>{% endfor %}</select></div>
+<div><label>Type</label><select name="type"><option>Info</option><option>Schedule</option><option>Deadline</option><option>Important</option></select></div></div>
+<label>Message</label><textarea name="message" required></textarea><button>Send</button></form></div>{% endif %}
+<div class="card">{% if rows %}<table><tr><th>When</th><th>Type</th><th>Message</th></tr>{% for n in rows %}<tr class="{{ 'unread' if not n.is_read }}"><td>{{ n.created_at }}</td><td><span class="tag">{{ n.type }}</span></td><td>{{ n.message }}</td></tr>{% endfor %}</table>
+{% else %}<div class="empty">You're all caught up.</div>{% endif %}</div>{% endblock %}

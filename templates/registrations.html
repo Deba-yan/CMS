@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Registrations{% endblock %}{% block body %}
+<h1>My registrations</h1><p class="sub">Your conference registrations and payments.</p>
+<div class="card">{% if rows %}<table><tr><th>Conference</th><th>Date</th><th>Fee</th><th>Status</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.conf }}</td><td>{{ r.date }}</td><td>{{ '₹%.0f'|format(r.fee) if r.fee else 'Free' }}</td>
+<td><span class="tag {{ r.status.split()[0] }}">{{ r.status }}</span>{% if r.pay_status=='Failed' %} <span class="tag Failed">last payment failed</span>{% endif %}</td>
+<td>{% if r.status!='Confirmed' %}<a class="btn sm" href="{{ url_for('pay', rid=r.id) }}">Pay now</a>{% endif %}</td></tr>{% endfor %}</table>
+{% else %}<div class="empty">No registrations yet. <a href="{{ url_for('conferences') }}">Browse conferences</a>.</div>{% endif %}</div>{% endblock %}

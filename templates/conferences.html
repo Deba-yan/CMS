@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Conferences{% endblock %}{% block body %}
+<h1>Conferences</h1><p class="sub">Browse upcoming conferences.</p>
+{% if user.role=='admin' %}<div class="card"><h2>Create a conference</h2><form method="post">
+<div class="row"><div><label>Name</label><input name="name" required></div><div><label>Date</label><input name="date" type="date" required></div></div>
+<div class="row"><div><label>Venue</label><input name="venue" required></div><div><label>Registration fee (₹, 0 = free)</label><input name="fee" type="number" min="0" value="0"></div></div>
+<label>Description</label><textarea name="description" required></textarea><button>Create conference</button></form></div>{% endif %}
+{% for c in rows %}<div class="card"><h2>{{ c.name }}</h2>
+<p class="muted">📅 {{ c.date }} &nbsp; 📍 {{ c.venue }} &nbsp; 💳 {{ '₹%.0f'|format(c.fee) if c.fee else 'Free' }}</p><p>{{ c.description }}</p>
+<p class="muted">{{ c.papers }} paper(s) · {{ c.regs }} registration(s)</p>
+{% if user.role!='admin' %}{% if c.id in mine %}<span class="tag Confirmed">You're registered</span>
+{% else %}<form class="inline" method="post" action="{{ url_for('join', cid=c.id) }}">
+<input name="affiliation" placeholder="Your organisation (optional)" style="width:260px;margin-right:8px"><button class="btn sm">Register to attend</button></form>{% endif %}{% endif %}
+</div>{% else %}<div class="card empty">No conferences yet.</div>{% endfor %}{% endblock %}

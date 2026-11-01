@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Manage paper{% endblock %}{% block body %}
+<h1>P{{ '%03d'|format(p.id) }} · {{ p.title }}</h1><p class="sub">{{ p.conf }} · by {{ p.author_name }} · <span class="tag {{ p.status.split()[0] }}">{{ p.status }}</span></p>
+<div class="card"><h2>Abstract</h2><p>{{ p.abstract }}</p><p class="muted">Authors: {{ p.authors }}</p><a class="btn sm ghost" href="{{ url_for('download', fn=p.filename) }}">Download paper</a></div>
+<div class="card"><h2>Reviewers</h2>
+{% if assigned %}<table><tr><th>Reviewer</th><th>Score</th><th>Comments</th></tr>{% for a in assigned %}
+<tr><td>{{ a.name }}</td><td>{{ a.score ~ '/10' if a.score else '—' }}</td><td>{{ a.comments or 'Pending' }}</td></tr>{% endfor %}</table>{% else %}<p class="muted">No reviewers assigned yet.</p>{% endif %}
+<form method="post" class="row"><input type="hidden" name="action" value="assign"><div><label>Assign reviewer</label>
+<select name="reviewer_id">{% for r in reviewers %}<option value="{{ r.id }}">{{ r.name }}</option>{% endfor %}</select></div><div><button class="btn">Assign</button></div></form></div>
+<div class="card"><h2>Final decision</h2><form method="post"><input type="hidden" name="action" value="decide">
+<select name="decision" style="max-width:240px"><option value="">— choose —</option><option>Accepted</option><option>Rejected</option></select><br><button>Save decision</button></form>
+<p class="muted">The author is notified automatically. At least one review is required.</p></div>{% endblock %}
