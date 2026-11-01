@@ -14,7 +14,7 @@ UPLOADS = os.path.join(BASE, "uploads")
 ALLOWED = {"pdf", "doc", "docx"}
 
 app = Flask(__name__)
-app.secret_key = "dev-secret-change-me"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-me")
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 SCHEMA = """
@@ -435,6 +435,7 @@ def init_db(seed=True):
         c.commit()
     c.close()
 
+init_db()   # creates tables, demo data and the uploads folder (needed when run by gunicorn on Render)
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True, port=5000)
