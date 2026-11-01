@@ -420,9 +420,9 @@ def init_db(seed=True):
     c = sqlite3.connect(DB); c.executescript(SCHEMA)
     if seed and not c.execute("SELECT 1 FROM users").fetchone():
         t = now()
-        for n, e, r in [("Admin Anita", "admin@demo.com", "admin"), ("Arjun Author", "author@demo.com", "author"),
-                        ("Riya Reviewer", "reviewer@demo.com", "reviewer"), ("Ravi Reviewer", "reviewer2@demo.com", "reviewer"),
-                        ("Priya Participant", "participant@demo.com", "participant")]:
+        for n, e, r in [("Admin Debayan", "admin@demo.com", "admin"), ("Arjun Author", "author@demo.com", "author"),
+                        ("Rajdeep Reviewer", "reviewer@demo.com", "reviewer"), ("Ravi Reviewer", "reviewer2@demo.com", "reviewer"),
+                        ("Deba Participant", "participant@demo.com", "participant")]:
             c.execute("INSERT INTO users(name,email,password,role,created_at) VALUES(?,?,?,?,?)",
                       (n, e, generate_password_hash("demo123"), r, t))
         c.execute("INSERT INTO conferences(name,date,venue,description,fee,created_at) VALUES(?,?,?,?,?,?)",
